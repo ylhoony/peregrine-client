@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from "react";
 import Typography from "@material-ui/core/Typography";
 
-class Dashboard extends Component {
+class Integration extends Component {
   render() {
     return (
       <Fragment>
         <main className={this.props.mainClassName}>
           <div className={this.props.toolbarClassName} />
-          <h2>Dashboard Page</h2>
+          <h2>Integration Page</h2>
 
           <Typography paragraph>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -45,4 +45,4 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+export default Integration;

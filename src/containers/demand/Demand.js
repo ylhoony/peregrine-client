@@ -2,18 +2,13 @@ import React, { Component, Fragment } from "react";
 import Typography from "@material-ui/core/Typography";
 
 class Demand extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
-
   render() {
-    // const { classes } = this.props;
-    console.log(this.props);
-
     return (
       <Fragment>
         <main className={this.props.mainClassName}>
           <div className={this.props.toolbarClassName} />
+          <h2>Demand Page</h2>
+
           <Typography paragraph>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
