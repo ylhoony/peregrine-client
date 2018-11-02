@@ -5,10 +5,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 
 import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import MenuIcon from "@material-ui/icons/Menu";
 
+// Icons
+import MenuIcon from "@material-ui/icons/MenuOutlined";
 import SearchIcon from "@material-ui/icons/Search";
+import PersonIcon from "@material-ui/icons/PersonOutlineOutlined";
+import EjectIcon from "@material-ui/icons/EjectOutlined";
 
 // dropdown
 import Select from "@material-ui/core/Select";
@@ -17,6 +19,14 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 
 const styles = theme => ({
+  navLeft: {
+    display: "flex",
+    justifyContent: "flex-start"
+  },
+  navRight: {
+    display: "flex",
+    justifyContent: "flex-end"
+  },
   search: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
@@ -57,12 +67,15 @@ const styles = theme => ({
     }
   },
   selectSelect: {
-    paddingTop: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 3
+    height: "100%",
+    paddingTop: theme.spacing.unit * 0.75,
+    paddingLeft: theme.spacing.unit * 4,
+    paddingBottom: theme.spacing.unit * 0.75,
+    paddingRight: theme.spacing.unit
   },
   toolbar: {
+    display: "flex",
+    justifyContent: "space-between",
     [theme.breakpoints.up("xs")]: {
       paddingLeft: "4px",
       paddingRight: "4px"
@@ -90,43 +103,57 @@ class Header extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log(classes);
     return (
       <Fragment>
-        {/* <AppBar position="fixed" className={this.props.appBarClassName}> */}
         <AppBar position="fixed" className={this.props.appBarClassName}>
           <Toolbar variant="dense" classes={{ dense: classes.toolbar }}>
-            <IconButton color="inherit">
-              <MenuIcon fontSize="small" />
-            </IconButton>
+            <div className={classes.navLeft}>
+              <IconButton
+                color="inherit"
+                onClick={this.props.handleLeftDrawerDisplay}
+              >
+                <MenuIcon fontSize="small" />
+              </IconButton>
 
-            <Select
-              value={this.state.account}
-              onChange={this.handleChange}
-              disableUnderline
-              displayEmpty
-              name="account"
-              className={classes.selectSelect}
-            >
-              <MenuItem value="">
-                <em>Select Company</em>
-              </MenuItem>
-              <MenuItem value={10}>Test Product Lab</MenuItem>
-              <MenuItem value={20}>Outpeak Services Inc., USA</MenuItem>
-              <MenuItem value={30}>Nike Golf</MenuItem>
-            </Select>
+              <Select
+                value={this.state.account}
+                onChange={this.handleChange}
+                disableUnderline
+                displayEmpty
+                name="account"
+                className={classes.selectSelect}
+              >
+                <MenuItem value="">
+                  <em>Select Company</em>
+                </MenuItem>
+                <MenuItem value={10}>Test Product Lab</MenuItem>
+                <MenuItem value={20}>Outpeak Services Inc., USA</MenuItem>
+                <MenuItem value={30}>Nike Golf</MenuItem>
+              </Select>
+            </div>
 
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput
-                }}
-              />
+            <div className={classes.navRight}>
+              {/* <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon fontSize="small" />
+                </div>
+                <InputBase
+                  placeholder="Search"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput
+                  }}
+                />
+              </div> */}
+              <IconButton color="inherit">
+                <SearchIcon fontSize="small" />
+              </IconButton>
+              <IconButton color="inherit">
+                <PersonIcon fontSize="small" />
+              </IconButton>
+              <IconButton color="inherit">
+                <EjectIcon fontSize="small" />
+              </IconButton>
             </div>
           </Toolbar>
         </AppBar>
