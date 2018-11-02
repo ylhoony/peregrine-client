@@ -9,6 +9,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
 import HomeIcon from "@material-ui/icons/HomeOutlined";
+import DashboardIcon from "@material-ui/icons/DashboardOutlined";
 import StoreIcon from "@material-ui/icons/StoreOutlined";
 import CartIcon from "@material-ui/icons/ShoppingCartOutlined";
 import ViewListIcon from "@material-ui/icons/ViewListOutlined";
@@ -24,55 +25,67 @@ class LeftDrawer extends Component {
     return (
       <Fragment>
         <Drawer
-          className={this.props.drawerClassName}
           variant={this.props.drawerVariant}
           classes={this.props.drawerClasses}
+          open={this.props.openLeftDrawer}
         >
           <div className={this.props.toolbarClassName} />
           <List>
             <ListItem button dense key="Dashboard" component={Link} to="/">
               <ListItemIcon>
-                <HomeIcon fontSize="small" />
+                <DashboardIcon fontSize="small" />
               </ListItemIcon>
               <ListItemText primary="Dashboard" fontSize="small" />
             </ListItem>
 
-            <ListItem button dense key="Product">
+            <ListItem button dense key="Product" component={Link} to="/product">
               <ListItemIcon>
                 <ViewListIcon fontSize="small" />
               </ListItemIcon>
               <ListItemText primary="Product" />
             </ListItem>
 
-            <ListItem button dense key="Demand">
+            <ListItem button dense key="Demand" component={Link} to="/demand">
               <ListItemIcon>
                 <StoreIcon fontSize="small" />
               </ListItemIcon>
               <ListItemText primary="Demand" />
             </ListItem>
 
-            <ListItem button dense key="Supply">
+            <ListItem button dense key="Supply" component={Link} to="/supply">
               <ListItemIcon>
                 <CartIcon fontSize="small" />
               </ListItemIcon>
               <ListItemText primary="Supply" />
             </ListItem>
 
-            <ListItem button dense key="Warehouse">
+            <ListItem
+              button
+              dense
+              key="Warehouse"
+              component={Link}
+              to="/warehouse"
+            >
               <ListItemIcon>
                 <StorageIcon fontSize="small" />
               </ListItemIcon>
               <ListItemText primary="Warehouse" />
             </ListItem>
 
-            <ListItem button dense key="Logistics">
+            <ListItem
+              button
+              dense
+              key="Logistics"
+              component={Link}
+              to="/logistics"
+            >
               <ListItemIcon>
                 <ShippingIcon fontSize="small" />
               </ListItemIcon>
               <ListItemText primary="Logistics" />
             </ListItem>
 
-            <ListItem button dense key="Report">
+            <ListItem button dense key="Report" component={Link} to="/report">
               <ListItemIcon>
                 <BarChartIcon fontSize="small" />
               </ListItemIcon>
@@ -81,18 +94,24 @@ class LeftDrawer extends Component {
           </List>
           <Divider />
           <List>
-            <ListItem button dense key="Integration">
+            <ListItem
+              button
+              dense
+              key="Integration"
+              component={Link}
+              to="/integration"
+            >
               <ListItemIcon>
                 <ShareIcon fontSize="small" />
               </ListItemIcon>
               <ListItemText primary="Integration" />
             </ListItem>
 
-            <ListItem button dense key="Settings">
+            <ListItem button dense key="Setting" component={Link} to="/setting">
               <ListItemIcon>
                 <SettingsIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText primary="Settings" />
+              <ListItemText primary="Setting" />
             </ListItem>
           </List>
         </Drawer>
