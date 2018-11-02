@@ -12,12 +12,19 @@ import LeftDrawer from "./containers/layout/LeftDrawer";
 import Dashboard from "./containers/Dashboard";
 import Demand from "./containers/demand/Demand";
 import Supply from "./containers/supply/Supply";
+import Product from "./containers/product/Product";
+import Warehouse from "./containers/warehouse/Warehouse";
+import Logistics from "./containers/logistics/Logistics";
+import Report from "./containers/report/Report";
+import Integration from "./containers/integration/Integration";
+import Setting from "./containers/setting/Setting";
 
 // material-ui layout setup
+import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
-const drawerWidth = 200;
+const drawerWidth = 180;
 
 const styles = theme => ({
   root: {
@@ -26,18 +33,41 @@ const styles = theme => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1
   },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0
-  },
   drawerPaper: {
-    width: drawerWidth
+    height: "100vh",
+    position: "relative",
+    whiteSpace: "nowrap",
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  },
+  drawerPaperClose: {
+    overflowX: "hidden",
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    }),
+    width: theme.spacing.unit * 7,
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing.unit * 9
+    }
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 0
+    paddingTop: 0,
+    paddingLeft: theme.spacing.unit * 2,
+    paddingRight: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2
   },
-  toolbar: theme.mixins.toolbar
+  toolbar: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: "0 8px",
+    ...theme.mixins.toolbar
+  }
 });
 
 class App extends Component {
@@ -49,10 +79,12 @@ class App extends Component {
     };
   }
 
-  handleDrawerDisplay = () => {
+  handleLeftDrawerDisplay = () => {
     !!this.state.openLeftDrawer
       ? this.setState({ openLeftDrawer: false })
       : this.setState({ openLeftDrawer: true });
+
+    console.log(this.state);
   };
 
   render() {
@@ -65,17 +97,24 @@ class App extends Component {
           <Route exact path="/signin" component={SignIn} />
 
           <div className={classes.root}>
-            {/* <CssBaseline /> */}
-            <Header appBarClassName={classes.appBar} handleDrawerOpen />
+            <CssBaseline />
+            <Header
+              appBarClassName={classes.appBar}
+              handleLeftDrawerDisplay={this.handleLeftDrawerDisplay}
+            />
             <LeftDrawer
-              drawerClassName={classes.drawer}
               drawerVariant="permanent"
               drawerClasses={{
-                paper: classes.drawerPaper
+                paper: classNames(
+                  classes.drawerPaper,
+                  !this.state.openLeftDrawer && classes.drawerPaperClose
+                )
               }}
               toolbarClassName={classes.toolbar}
+              openLeftDrawer={this.state.openLeftDrawer}
             />
 
+            {/* Routes */}
             <Route
               exact
               path="/"
@@ -87,7 +126,17 @@ class App extends Component {
               )}
             />
 
-            {/* Routes */}
+            <Route
+              exact
+              path="/product"
+              render={() => (
+                <Product
+                  mainClassName={classes.content}
+                  toolbarClassName={classes.toolbar}
+                />
+              )}
+            />
+
             <Route
               exact
               path="/demand"
@@ -101,9 +150,64 @@ class App extends Component {
 
             <Route
               exact
-              path="/demand"
+              path="/supply"
               render={() => (
-                <Demand
+                <Supply
+                  mainClassName={classes.content}
+                  toolbarClassName={classes.toolbar}
+                />
+              )}
+            />
+
+            <Route
+              exact
+              path="/warehouse"
+              render={() => (
+                <Warehouse
+                  mainClassName={classes.content}
+                  toolbarClassName={classes.toolbar}
+                />
+              )}
+            />
+
+            <Route
+              exact
+              path="/logistics"
+              render={() => (
+                <Logistics
+                  mainClassName={classes.content}
+                  toolbarClassName={classes.toolbar}
+                />
+              )}
+            />
+
+            <Route
+              exact
+              path="/report"
+              render={() => (
+                <Report
+                  mainClassName={classes.content}
+                  toolbarClassName={classes.toolbar}
+                />
+              )}
+            />
+
+            <Route
+              exact
+              path="/integration"
+              render={() => (
+                <Integration
+                  mainClassName={classes.content}
+                  toolbarClassName={classes.toolbar}
+                />
+              )}
+            />
+
+            <Route
+              exact
+              path="/setting"
+              render={() => (
+                <Setting
                   mainClassName={classes.content}
                   toolbarClassName={classes.toolbar}
                 />
@@ -116,4 +220,4 @@ class App extends Component {
   }
 }
 
-export default withStyles(styles)(App);
+export default withStyles(styles, { withTheme: true })(App);
