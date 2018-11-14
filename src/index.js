@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core";
 
 import App from "./App";
@@ -9,9 +10,9 @@ import { rootReducer } from "./reducers/index";
 import { muiTheme } from "./services/muiTheme";
 import * as serviceWorker from "./serviceWorker";
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(thunk));
 const theme = createMuiTheme(muiTheme);
-console.log("theme: ", theme);
+console.log("theme main index: ", theme);
 
 ReactDOM.render(
   <Provider store={store}>
