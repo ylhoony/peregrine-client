@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from "react";
 
-class Footer extends Component {
+class AccountAddresses extends Component {
   render() {
     return (
       <Fragment>
-        <div>footer</div>
+        <div>account addresses page</div>
       </Fragment>
     );
   }
 }
 
-export default Footer;
+export default AccountAddresses;
