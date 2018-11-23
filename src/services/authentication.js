@@ -1,11 +1,15 @@
 export default class Authentication {
   static setToken(token) {
-    localStorage.setItem("token", token.slice(6).trim());
+    localStorage.setItem("token", token);
   }
 
-  static token() {
+  static getEncodedToken() {
     "Bearer ".concat(localStorage.getItem("token"));
     return "Bearer ".concat(localStorage.getItem("token"));
+  }
+
+  static getToken() {
+    return localStorage.getItem("token");
   }
 
   static removeToken(token) {
