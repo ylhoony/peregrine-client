@@ -1,10 +1,15 @@
 import React, { Component, Fragment } from "react";
+import { Link, withRouter } from "react-router-dom";
+import authentication from "../../services/authentication";
+
+// mui
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-
-import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import { fade } from "@material-ui/core/styles/colorManipulator";
 
 // Icons
 import MenuIcon from "@material-ui/icons/MenuOutlined";
@@ -13,10 +18,6 @@ import PersonIcon from "@material-ui/icons/PersonOutlineOutlined";
 import EjectIcon from "@material-ui/icons/EjectOutlined";
 
 // dropdown
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-
-import { fade } from "@material-ui/core/styles/colorManipulator";
 
 const styles = theme => ({
   navLeft: {
@@ -67,10 +68,16 @@ const styles = theme => ({
     }
   },
   selectSelect: {
-    height: "100%",
+    fontSize: "0.875rem",
+    // height: "100%",
     paddingTop: theme.spacing.unit * 0.75,
     paddingLeft: theme.spacing.unit * 4,
     paddingBottom: theme.spacing.unit * 0.75,
+    paddingRight: theme.spacing.unit
+  },
+  menuItem: {
+    fontSize: "0.875rem",
+    paddingLeft: theme.spacing.unit,
     paddingRight: theme.spacing.unit
   },
   toolbar: {
@@ -101,11 +108,21 @@ class Header extends Component {
     console.log(this.state);
   };
 
+  handleSignOut = () => {
+    console.log("sign out!");
+    authentication.removeToken();
+    this.props.history.push("/signin");
+  };
+
   render() {
     const { classes } = this.props;
     return (
       <Fragment>
-        <AppBar position="fixed" className={this.props.appBarClassName}>
+        <AppBar
+          position="fixed"
+          className={this.props.appBarClassName}
+          color="inherit"
+        >
           <Toolbar variant="dense" classes={{ dense: classes.toolbar }}>
             <div className={classes.navLeft}>
               <IconButton
@@ -123,12 +140,18 @@ class Header extends Component {
                 name="account"
                 className={classes.selectSelect}
               >
-                <MenuItem value="">
+                <MenuItem value="" className={classes.menuItem}>
                   <em>Select Company</em>
                 </MenuItem>
-                <MenuItem value={10}>Test Product Lab</MenuItem>
-                <MenuItem value={20}>Outpeak Services Inc., USA</MenuItem>
-                <MenuItem value={30}>Nike Golf</MenuItem>
+                <MenuItem value={10} className={classes.menuItem}>
+                  Test Product Lab
+                </MenuItem>
+                <MenuItem value={20} className={classes.menuItem}>
+                  Outpeak Services Inc., USA
+                </MenuItem>
+                <MenuItem value={30} className={classes.menuItem}>
+                  Nike Golf
+                </MenuItem>
               </Select>
             </div>
 
@@ -148,10 +171,10 @@ class Header extends Component {
               <IconButton color="inherit">
                 <SearchIcon fontSize="small" />
               </IconButton>
-              <IconButton color="inherit">
+              <IconButton color="inherit" component={Link} to="/profile">
                 <PersonIcon fontSize="small" />
               </IconButton>
-              <IconButton color="inherit">
+              <IconButton color="inherit" onClick={() => this.handleSignOut()}>
                 <EjectIcon fontSize="small" />
               </IconButton>
             </div>
@@ -162,4 +185,4 @@ class Header extends Component {
   }
 }
 
-export default withStyles(styles)(Header);
+export default withStyles(styles)(withRouter(Header));
