@@ -1,6 +1,10 @@
 import React, { Component, Fragment } from "react";
-import axios from "axios";
+import { connect } from "react-redux";
+import { Link, withRouter } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import { actions } from "../../actions/index";
 
+// mui import
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
@@ -61,7 +65,7 @@ class SignUp extends Component {
 
   handleInputChange(e) {
     const key = e.target.name;
-    const value = e.target.value;
+    const { value } = e.target;
 
     this.setState({
       ...this.state,
@@ -70,29 +74,21 @@ class SignUp extends Component {
         [key]: value
       }
     });
-    console.log(this.state);
   }
 
   handleFormSubmit = async e => {
     e.preventDefault();
-    console.log("form submit state: ", this.state);
+    console.log(this.state);
+    await this.props.actions.signUp(this.state);
 
-    axios({
-      method: "post",
-      url: "api/v1/sign_up",
-      data: this.state
-    })
-      .then(res => {
-        console.log(res);
-        // debugger;
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    if (!!this.props.currentUser) {
+      this.props.history.push("/accounts");
+    }
   };
 
   render() {
     const { classes } = this.props;
+    console.log(this.props);
 
     return (
       <Fragment>
@@ -139,10 +135,7 @@ class SignUp extends Component {
                   // autoComplete="current-password"
                 />
               </FormControl>
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+
               <Button
                 type="submit"
                 fullWidth
@@ -152,6 +145,23 @@ class SignUp extends Component {
               >
                 Sign up
               </Button>
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <FormControlLabel
+                control={
+                  <Button
+                    component={Link}
+                    // value="Sign In"
+                    color="secondary"
+                    to="/signin"
+                  >
+                    Sign In
+                  </Button>
+                }
+                // label="signin"
+              />
             </form>
           </Paper>
         </main>
@@ -160,4 +170,21 @@ class SignUp extends Component {
   }
 }
 
-export default withStyles(styles)(SignUp);
+const mapStateToProps = ({ authentication }) => {
+  return {
+    currentUser: authentication.currentUser
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  };
+};
+
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(withRouter(SignUp))
+);
