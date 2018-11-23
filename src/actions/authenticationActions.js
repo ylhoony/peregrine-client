@@ -37,7 +37,6 @@ export default {
         } else {
           dispatch({
             type: SIGN_UP_USER_FAILURE
-            // payload: res
           });
         }
       } catch (err) {
@@ -70,7 +69,7 @@ export default {
     return async dispatch => {
       dispatch({ type: AUTHENTICATE_USER_START });
       try {
-        const res = await axios.get("/api/v1/authenticate", {
+        const res = await axios.get("/api/v1/current_user", {
           headers: {
             Authorization: authentication.getEncodedToken()
           }
