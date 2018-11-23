@@ -14,20 +14,26 @@ class AuthenticatedRoutes extends Component {
       this.props.history.push("/signin");
     } else {
       this.props.actions.authenticateUser(token);
+      if (!this.props.countries.length) {
+        this.props.actions.fetchCountries();
+      }
     }
   }
 
   render() {
     console.log("authenticatedRoute: ", this.props);
+    const {
+      authenticateUserLoading,
+      authenticateUserError,
+      authenticateUserFailure,
+      fetchCountriesLoading
+    } = this.props;
 
-    if (this.props.authenticateUserLoading) {
+    if (authenticateUserLoading || fetchCountriesLoading) {
       return <Loading />;
     }
 
-    if (
-      !!this.props.authenticateUserError ||
-      !!this.props.authenticateUserFailure
-    ) {
+    if (!!authenticateUserError || !!authenticateUserFailure) {
       this.props.history.push("/signin");
     }
 
@@ -35,13 +41,18 @@ class AuthenticatedRoutes extends Component {
   }
 }
 
-const mapStateToProps = ({ authentication }) => {
+const mapStateToProps = ({ authentication, countries }) => {
   return {
     currentUser: authentication.currentUser,
 
     authenticateUserLoading: authentication.authenticateUserLoading,
     authenticateUserFailure: authentication.authenticateUserFailure,
-    authenticateUserError: authentication.authenticateUserError
+    authenticateUserError: authentication.authenticateUserError,
+
+    countries: countries.countries,
+    fetchCountriesLoading: countries.fetchCountriesLoading,
+    fetchCountriesFailure: countries.fetchCountriesFailure,
+    fetchCountriesError: countries.fetchCountriesError
   };
 };
 
