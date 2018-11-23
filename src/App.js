@@ -244,7 +244,6 @@ class App extends Component {
               />
 
               <Route
-                exact
                 path="/accounts"
                 render={() => (
                   <Accounts
