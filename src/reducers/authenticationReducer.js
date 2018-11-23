@@ -10,10 +10,10 @@ import {
   SIGN_IN_USER_FAILURE,
   SIGN_IN_USER_ERROR,
   //
-  SIGN_OUT_USER_START,
-  SIGN_OUT_USER_SUCCESS,
-  SIGN_OUT_USER_FAILURE,
-  SIGN_OUT_USER_ERROR,
+  // SIGN_OUT_USER_START,
+  // SIGN_OUT_USER_SUCCESS,
+  // SIGN_OUT_USER_FAILURE,
+  // SIGN_OUT_USER_ERROR,
   //
   AUTHENTICATE_USER_START,
   AUTHENTICATE_USER_SUCCESS,
@@ -43,6 +43,7 @@ export default (state = initialState, action) => {
   // debugger;
 
   switch (action.type) {
+    // Sign Up
     case SIGN_UP_USER_START:
       return {
         ...state,
@@ -70,8 +71,7 @@ export default (state = initialState, action) => {
         signUpError: true
       };
 
-    //
-
+    // Sign In
     case SIGN_IN_USER_START:
       return {
         ...state,
