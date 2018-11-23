@@ -1,9 +1,6 @@
 import { combineReducers } from "redux";
-
-const initalState = {
-  user: null
-};
+import authenticationReducer from "./authenticationReducer";
 
 export const rootReducer = combineReducers({
-  user: initalState
+  authentication: authenticationReducer
 });
