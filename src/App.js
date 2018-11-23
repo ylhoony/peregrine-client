@@ -4,11 +4,13 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import SignUp from "./containers/authentication/SignUp";
 import SignIn from "./containers/authentication/SignIn";
 
+import AuthenticatedRoutes from "./containers/AuthenticatedRoutes";
+
 // Layout
 import Header from "./containers/layout/Header";
 import LeftDrawer from "./containers/layout/LeftDrawer";
 
-// Routes
+// Routes - Main
 import Dashboard from "./containers/Dashboard";
 import Demand from "./containers/demand/Demand";
 import Supply from "./containers/supply/Supply";
@@ -18,6 +20,10 @@ import Logistics from "./containers/logistics/Logistics";
 import Report from "./containers/report/Report";
 import Integration from "./containers/integration/Integration";
 import Setting from "./containers/setting/Setting";
+
+// Routes
+import Accounts from "./containers/accounts/Accounts";
+import User from "./containers/users/User";
 
 // material-ui layout setup
 import classNames from "classnames";
@@ -34,8 +40,8 @@ const styles = theme => ({
     zIndex: theme.zIndex.drawer + 1
   },
   drawerPaper: {
-    height: "100vh",
-    position: "relative",
+    height: "200vh",
+    position: "fixed",
     whiteSpace: "nowrap",
     width: drawerWidth,
     transition: theme.transitions.create("width", {
@@ -57,7 +63,7 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     paddingTop: 0,
-    paddingLeft: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing.unit * 11,
     paddingRight: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2
   },
@@ -96,124 +102,159 @@ class App extends Component {
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/signin" component={SignIn} />
 
-          <div className={classes.root}>
-            <CssBaseline />
-            <Header
-              appBarClassName={classes.appBar}
-              handleLeftDrawerDisplay={this.handleLeftDrawerDisplay}
-            />
-            <LeftDrawer
-              drawerVariant="permanent"
-              drawerClasses={{
-                paper: classNames(
-                  classes.drawerPaper,
-                  !this.state.openLeftDrawer && classes.drawerPaperClose
-                )
-              }}
-              toolbarClassName={classes.toolbar}
-              openLeftDrawer={this.state.openLeftDrawer}
-            />
+          <AuthenticatedRoutes>
+            <div className={classes.root}>
+              <CssBaseline />
+              <Header
+                appBarClassName={classes.appBar}
+                handleLeftDrawerDisplay={this.handleLeftDrawerDisplay}
+              />
+              <LeftDrawer
+                drawerVariant="permanent"
+                drawerClasses={{
+                  paper: classNames(
+                    classes.drawerPaper,
+                    !this.state.openLeftDrawer && classes.drawerPaperClose
+                  )
+                }}
+                toolbarClassName={classes.toolbar}
+                openLeftDrawer={this.state.openLeftDrawer}
+              />
 
-            {/* Routes */}
-            <Route
-              exact
-              path="/"
-              render={() => (
-                <Dashboard
-                  mainClassName={classes.content}
-                  toolbarClassName={classes.toolbar}
-                />
-              )}
-            />
+              {/* Routes */}
+              <Route
+                exact
+                path="/"
+                render={() => (
+                  <Dashboard
+                    mainClassName={classes.content}
+                    toolbarClassName={classes.toolbar}
+                  />
+                )}
+              />
 
-            <Route
-              exact
-              path="/product"
-              render={() => (
-                <Product
-                  mainClassName={classes.content}
-                  toolbarClassName={classes.toolbar}
-                />
-              )}
-            />
+              <Route
+                exact
+                path="/dashboard"
+                render={() => (
+                  <Dashboard
+                    mainClassName={classes.content}
+                    toolbarClassName={classes.toolbar}
+                  />
+                )}
+              />
 
-            <Route
-              exact
-              path="/demand"
-              render={() => (
-                <Demand
-                  mainClassName={classes.content}
-                  toolbarClassName={classes.toolbar}
-                />
-              )}
-            />
+              <Route
+                exact
+                path="/product"
+                render={() => (
+                  <Product
+                    mainClassName={classes.content}
+                    toolbarClassName={classes.toolbar}
+                  />
+                )}
+              />
 
-            <Route
-              exact
-              path="/supply"
-              render={() => (
-                <Supply
-                  mainClassName={classes.content}
-                  toolbarClassName={classes.toolbar}
-                />
-              )}
-            />
+              <Route
+                exact
+                path="/demand"
+                render={() => (
+                  <Demand
+                    mainClassName={classes.content}
+                    toolbarClassName={classes.toolbar}
+                  />
+                )}
+              />
 
-            <Route
-              exact
-              path="/warehouse"
-              render={() => (
-                <Warehouse
-                  mainClassName={classes.content}
-                  toolbarClassName={classes.toolbar}
-                />
-              )}
-            />
+              <Route
+                exact
+                path="/supply"
+                render={() => (
+                  <Supply
+                    mainClassName={classes.content}
+                    toolbarClassName={classes.toolbar}
+                  />
+                )}
+              />
 
-            <Route
-              exact
-              path="/logistics"
-              render={() => (
-                <Logistics
-                  mainClassName={classes.content}
-                  toolbarClassName={classes.toolbar}
-                />
-              )}
-            />
+              <Route
+                exact
+                path="/warehouse"
+                render={() => (
+                  <Warehouse
+                    mainClassName={classes.content}
+                    toolbarClassName={classes.toolbar}
+                  />
+                )}
+              />
 
-            <Route
-              exact
-              path="/report"
-              render={() => (
-                <Report
-                  mainClassName={classes.content}
-                  toolbarClassName={classes.toolbar}
-                />
-              )}
-            />
+              <Route
+                exact
+                path="/logistics"
+                render={() => (
+                  <Logistics
+                    mainClassName={classes.content}
+                    toolbarClassName={classes.toolbar}
+                  />
+                )}
+              />
 
-            <Route
-              exact
-              path="/integration"
-              render={() => (
-                <Integration
-                  mainClassName={classes.content}
-                  toolbarClassName={classes.toolbar}
-                />
-              )}
-            />
+              <Route
+                exact
+                path="/report"
+                render={() => (
+                  <Report
+                    mainClassName={classes.content}
+                    toolbarClassName={classes.toolbar}
+                  />
+                )}
+              />
 
-            <Route
-              exact
-              path="/setting"
-              render={() => (
-                <Setting
-                  mainClassName={classes.content}
-                  toolbarClassName={classes.toolbar}
-                />
-              )}
-            />
-          </div>
+              <Route
+                exact
+                path="/integration"
+                render={() => (
+                  <Integration
+                    mainClassName={classes.content}
+                    toolbarClassName={classes.toolbar}
+                  />
+                )}
+              />
+
+              <Route
+                exact
+                path="/setting"
+                render={() => (
+                  <Setting
+                    mainClassName={classes.content}
+                    toolbarClassName={classes.toolbar}
+                  />
+                )}
+              />
+
+              <Route
+                exact
+                path="/profile"
+                render={() => (
+                  <User
+                    mainClassName={classes.content}
+                    toolbarClassName={classes.toolbar}
+                  />
+                )}
+              />
+
+              <Route
+                exact
+                path="/accounts"
+                render={() => (
+                  <Accounts
+                    mainClassName={classes.content}
+                    toolbarClassName={classes.toolbar}
+                  />
+                )}
+              />
+            </div>
+          </AuthenticatedRoutes>
         </Switch>
       </Router>
     );
