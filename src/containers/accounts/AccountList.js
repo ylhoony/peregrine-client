@@ -9,9 +9,6 @@ class AccountList extends Component {
     return (
       <Fragment>
         <h2>Accounts List Page</h2>
-        <button component={Link} to={`${match.url}/new`}>
-          create new account
-        </button>
       </Fragment>
     );
   }
