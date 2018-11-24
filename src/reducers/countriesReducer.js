@@ -1,10 +1,11 @@
 import {
+  // actions for fetching coutnry list
   FETCH_COUNTRIES_START,
   FETCH_COUNTRIES_SUCCESS,
   FETCH_COUNTRIES_FAILURE,
   FETCH_COUNTRIES_ERROR,
 
-  // actions for fetching one account
+  // actions for fetching one country
   FETCH_COUNTRY_START,
   FETCH_COUNTRY_SUCCESS,
   FETCH_COUNTRY_FAILURE,
@@ -24,8 +25,6 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  console.log("countries reducer: ", action);
-
   switch (action.type) {
     // fetch country list
     case FETCH_COUNTRIES_START:
@@ -57,7 +56,7 @@ export default (state = initialState, action) => {
     case FETCH_COUNTRY_SUCCESS:
       return {
         ...state,
-        countries: action.payload,
+        selectedCountry: action.payload,
         fetchCountryLoading: false
       };
 
