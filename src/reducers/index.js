@@ -1,8 +1,10 @@
 import { combineReducers } from "redux";
-import authenticationReducer from "./authenticationReducer";
-import countriesReducer from "./countriesReducer";
+import authentication from "./authenticationReducer";
+import countries from "./countriesReducer";
+import currencies from "./currenciesReducer";
 
 export const rootReducer = combineReducers({
-  authentication: authenticationReducer,
-  countries: countriesReducer
+  authentication,
+  countries,
+  currencies
 });
