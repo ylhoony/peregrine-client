@@ -1,13 +1,13 @@
 import axios from "axios";
 import authentication from "../services/authentication";
 
-// actions for fetching account list
+// actions for fetching coutnry list
 export const FETCH_COUNTRIES_START = "FETCH_COUNTRIES_START";
 export const FETCH_COUNTRIES_SUCCESS = "FETCH_COUNTRIES_SUCCESS";
 export const FETCH_COUNTRIES_FAILURE = "FETCH_COUNTRIES_FAILURE";
 export const FETCH_COUNTRIES_ERROR = "FETCH_COUNTRIES_ERROR";
 
-// actions for fetching one account
+// actions for fetching one country
 export const FETCH_COUNTRY_START = "FETCH_COUNTRY_START";
 export const FETCH_COUNTRY_SUCCESS = "FETCH_COUNTRY_SUCCESS";
 export const FETCH_COUNTRY_FAILURE = "FETCH_COUNTRY_FAILURE";
@@ -23,10 +23,8 @@ export default {
             Authorization: authentication.getEncodedToken()
           }
         });
-        console.log(res.data);
         dispatch({ type: FETCH_COUNTRIES_SUCCESS, payload: res.data });
       } catch (err) {
-        console.log(err);
         dispatch({ type: FETCH_COUNTRIES_ERROR });
       }
     };
@@ -40,10 +38,8 @@ export default {
             Authorization: authentication.getEncodedToken()
           }
         });
-        console.log(res.data);
         dispatch({ type: FETCH_COUNTRY_SUCCESS, payload: res.data });
       } catch (err) {
-        console.log(err);
         dispatch({ type: FETCH_COUNTRY_ERROR });
       }
     };
