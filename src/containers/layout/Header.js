@@ -1,8 +1,12 @@
 import React, { Component, Fragment } from "react";
 import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import authentication from "../../services/authentication";
+import { actions } from "../../actions/index";
 
 // mui
+import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -17,9 +21,27 @@ import SearchIcon from "@material-ui/icons/Search";
 import PersonIcon from "@material-ui/icons/PersonOutlineOutlined";
 import EjectIcon from "@material-ui/icons/EjectOutlined";
 
-// dropdown
+const drawerWidth = 200;
 
 const styles = theme => ({
+  appBar: {
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    })
+  },
+  appBarShift: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  },
+  hide: {
+    display: "none"
+  },
+  //
   navLeft: {
     display: "flex",
     justifyContent: "flex-start"
@@ -27,58 +49,6 @@ const styles = theme => ({
   navRight: {
     display: "flex",
     justifyContent: "flex-end"
-  },
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
-    },
-    marginRight: theme.spacing.unit * 2,
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing.unit * 3,
-      width: "auto"
-    }
-  },
-  searchIcon: {
-    width: theme.spacing.unit * 9,
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  inputRoot: {
-    color: "inherit",
-    width: "100%"
-  },
-  inputInput: {
-    paddingTop: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 10,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: 200
-    }
-  },
-  selectSelect: {
-    fontSize: "0.875rem",
-    // height: "100%",
-    paddingTop: theme.spacing.unit * 0.75,
-    paddingLeft: theme.spacing.unit * 4,
-    paddingBottom: theme.spacing.unit * 0.75,
-    paddingRight: theme.spacing.unit
-  },
-  menuItem: {
-    fontSize: "0.875rem",
-    paddingLeft: theme.spacing.unit,
-    paddingRight: theme.spacing.unit
   },
   toolbar: {
     display: "flex",
@@ -95,14 +65,6 @@ const styles = theme => ({
 });
 
 class Header extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      account: ""
-    };
-  }
-
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
     console.log(this.state);
@@ -114,60 +76,42 @@ class Header extends Component {
     this.props.history.push("/signin");
   };
 
+  handleLeftDrawerOpen = () => {
+    this.props.actions.openLeftDrawer();
+  };
+
   render() {
-    const { classes } = this.props;
+    const { classes, leftDrawerOpen } = this.props;
+    // console.log("header props", this.props);
+
     return (
       <Fragment>
         <AppBar
+          color="default"
           position="fixed"
-          className={this.props.appBarClassName}
-          color="inherit"
+          className={classNames(
+            classes.appBar,
+            leftDrawerOpen && classes.appBarShift
+          )}
         >
-          <Toolbar variant="dense" classes={{ dense: classes.toolbar }}>
+          <Toolbar
+            disableGutters={true}
+            variant="dense"
+            classes={{ dense: classes.toolbar }}
+          >
             <div className={classes.navLeft}>
               <IconButton
+                aria-label="Open drawer"
                 color="inherit"
-                onClick={this.props.handleLeftDrawerDisplay}
+                fontSize="small"
+                onClick={() => this.handleLeftDrawerOpen()}
+                className={classNames(leftDrawerOpen && classes.hide)}
               >
-                <MenuIcon fontSize="small" />
+                <MenuIcon />
               </IconButton>
-
-              <Select
-                value={this.state.account}
-                onChange={this.handleChange}
-                disableUnderline
-                displayEmpty
-                name="account"
-                className={classes.selectSelect}
-              >
-                <MenuItem value="" className={classes.menuItem}>
-                  <em>Select Company</em>
-                </MenuItem>
-                <MenuItem value={10} className={classes.menuItem}>
-                  Test Product Lab
-                </MenuItem>
-                <MenuItem value={20} className={classes.menuItem}>
-                  Outpeak Services Inc., USA
-                </MenuItem>
-                <MenuItem value={30} className={classes.menuItem}>
-                  Nike Golf
-                </MenuItem>
-              </Select>
             </div>
 
             <div className={classes.navRight}>
-              {/* <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon fontSize="small" />
-                </div>
-                <InputBase
-                  placeholder="Search"
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput
-                  }}
-                />
-              </div> */}
               <IconButton color="inherit">
                 <SearchIcon fontSize="small" />
               </IconButton>
@@ -185,4 +129,22 @@ class Header extends Component {
   }
 }
 
-export default withStyles(styles)(withRouter(Header));
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  };
+};
+
+const mapStateToProps = ({ layouts }) => {
+  return {
+    leftDrawerWidth: layouts.leftDrawerWidth,
+    leftDrawerOpen: layouts.leftDrawerOpen
+  };
+};
+
+export default withStyles(styles, { withTheme: true })(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(withRouter(Header))
+);
