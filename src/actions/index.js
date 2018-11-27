@@ -1,8 +1,12 @@
 import authentication from "./authenticationActions";
 import countries from "./countriesActions";
 import currencies from "./currenciesActions";
+import layouts from "./layoutsActions";
 
 export const actions = {
+  // layout
+  openLeftDrawer: layouts.openLeftDrawer,
+  closeLeftDrawer: layouts.closeLeftDrawer,
   // authentication
   signUp: authentication.signUp,
   signIn: authentication.signIn,
