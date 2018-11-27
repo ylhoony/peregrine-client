@@ -7,6 +7,34 @@ import authentication from "../services/authentication";
 
 import Loading from "../components/shared/Loading";
 
+//mui
+import classNames from "classnames";
+import { withStyles } from "@material-ui/core/styles";
+
+const drawerWidth = 200;
+
+const styles = theme => ({
+  content: {
+    flexGrow: 1,
+    paddingTop: theme.spacing.unit * 6,
+    paddingRight: theme.spacing.unit * 3,
+    paddingBottom: theme.spacing.unit * 3,
+    paddingLeft: theme.spacing.unit * 3,
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    }),
+    marginLeft: 0
+  },
+  contentShift: {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen
+    }),
+    marginLeft: `${drawerWidth}px`
+  }
+});
+
 class AuthenticatedRoutes extends Component {
   componentDidMount() {
     const token = authentication.getToken();
@@ -38,6 +66,8 @@ class AuthenticatedRoutes extends Component {
       // fetchCurrenciesError
     } = this.props;
 
+    const { classes, leftDrawerOpen } = this.props;
+
     if (
       authenticateUserLoading ||
       fetchCountriesLoading ||
@@ -50,11 +80,27 @@ class AuthenticatedRoutes extends Component {
       this.props.history.push("/signin");
     }
 
-    return <Fragment>{this.props.children}</Fragment>;
+    return (
+      <Fragment>
+        <main
+          className={classNames(
+            classes.content,
+            leftDrawerOpen && classes.contentShift
+          )}
+        >
+          {this.props.children}
+        </main>
+      </Fragment>
+    );
   }
 }
 
-const mapStateToProps = ({ authentication, countries, currencies }) => {
+const mapStateToProps = ({
+  authentication,
+  countries,
+  currencies,
+  layouts
+}) => {
   return {
     currentUser: authentication.currentUser,
 
@@ -70,7 +116,9 @@ const mapStateToProps = ({ authentication, countries, currencies }) => {
     currencies: currencies.currencies,
     fetchCurrenciesLoading: currencies.fetchCurrenciesLoading,
     fetchCurrenciesFailure: currencies.fetchCurrenciesFailure,
-    fetchCurrenciesError: currencies.fetchCurrenciesError
+    fetchCurrenciesError: currencies.fetchCurrenciesError,
+
+    leftDrawerOpen: layouts.leftDrawerOpen
   };
 };
 
@@ -80,9 +128,11 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(AuthenticatedRoutes)
+export default withStyles(styles, { withTheme: true })(
+  withRouter(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(AuthenticatedRoutes)
+  )
 );
