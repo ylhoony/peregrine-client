@@ -1,5 +1,11 @@
 import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
+import { actions } from "../../actions/index";
+
+// mui
+import { withStyles } from "@material-ui/core/styles";
 
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
@@ -7,8 +13,8 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import Toolbar from "@material-ui/core/Toolbar";
 
-import HomeIcon from "@material-ui/icons/HomeOutlined";
 import DashboardIcon from "@material-ui/icons/DashboardOutlined";
 import StoreIcon from "@material-ui/icons/StoreOutlined";
 import CartIcon from "@material-ui/icons/ShoppingCartOutlined";
@@ -16,20 +22,65 @@ import ViewListIcon from "@material-ui/icons/ViewListOutlined";
 import StorageIcon from "@material-ui/icons/StorageOutlined";
 import ShippingIcon from "@material-ui/icons/LocalShippingOutlined";
 import BarChartIcon from "@material-ui/icons/BarChartOutlined";
-
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeftOutlined";
+import ChevronRightIcon from "@material-ui/icons/ChevronRightOutlined";
 import ShareIcon from "@material-ui/icons/ShareOutlined";
 import SettingsIcon from "@material-ui/icons/SettingsOutlined";
+import IconButton from "@material-ui/core/IconButton";
+
+const drawerWidth = 200;
+
+const styles = theme => ({
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0
+  },
+  drawerPaper: {
+    width: drawerWidth
+  },
+  drawerHeader: {
+    display: "flex",
+    alignItems: "center",
+    padding: "2 8px",
+    justifyContent: "flex-end"
+  }
+});
 
 class LeftDrawer extends Component {
+  handleLeftDrawerClose = () => {
+    this.props.actions.closeLeftDrawer();
+  };
+
   render() {
+    const { classes, leftDrawerOpen, theme } = this.props;
+
+    console.log("left drawer props: ", this.props);
     return (
       <Fragment>
         <Drawer
-          variant={this.props.drawerVariant}
-          classes={this.props.drawerClasses}
-          open={this.props.openLeftDrawer}
+          className={classes.drawer}
+          variant="persistent"
+          anchor="left"
+          open={leftDrawerOpen}
+          classes={{
+            paper: classes.drawerPaper
+          }}
         >
-          <div className={this.props.toolbarClassName} />
+          <Toolbar
+            disableGutters={true}
+            variant="dense"
+            className={classes.drawerHeader}
+          >
+            <IconButton onClick={() => this.handleLeftDrawerClose()}>
+              {theme.direction === "ltr" ? (
+                <ChevronLeftIcon fontSize="small" />
+              ) : (
+                <ChevronRightIcon fontSize="small" />
+              )}
+            </IconButton>
+          </Toolbar>
+
+          <Divider />
           <List>
             <ListItem button dense key="Dashboard" component={Link} to="/">
               <ListItemIcon>
@@ -120,4 +171,21 @@ class LeftDrawer extends Component {
   }
 }
 
-export default LeftDrawer;
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  };
+};
+
+const mapStateToProps = ({ layouts }) => {
+  return {
+    leftDrawerOpen: layouts.leftDrawerOpen
+  };
+};
+
+export default withStyles(styles, { withTheme: true })(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(LeftDrawer)
+);
