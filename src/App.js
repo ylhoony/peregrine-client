@@ -31,46 +31,53 @@ import Setting from "./containers/setting/Setting";
 import Accounts from "./containers/accounts/Accounts";
 import User from "./containers/users/User";
 
-const styles = theme => ({
-  root: {
-    display: "flex"
-  }
-});
+// Settings
+import AccountAddresses from "./containers/setting/account-addresses/AccountAddresses";
+import AccountContacts from "./containers/setting/account-contacts/AccountContacts";
 
 class App extends Component {
   render() {
-    const { classes } = this.props;
     return (
       <Router>
         <Switch>
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/signin" component={SignIn} />
 
-          <div className={classes.root}>
-            <AuthenticatedRoutes>
-              <CssBaseline />
-              <Header />
-              <LeftDrawer />
+          <AuthenticatedRoutes>
+            <CssBaseline />
+            <Header />
+            <LeftDrawer />
 
-              <Route exact path="/" render={() => <Dashboard />} />
-              <Route exact path="/dashboard" render={() => <Dashboard />} />
-              <Route exact path="/product" render={() => <Product />} />
-              <Route exact path="/demand" render={() => <Demand />} />
-              <Route exact path="/supply" render={() => <Supply />} />
-              <Route exact path="/warehouse" render={() => <Warehouse />} />
-              <Route exact path="/logistics" render={() => <Logistics />} />
-              <Route exact path="/report" render={() => <Report />} />
-              <Route exact path="/integration" render={() => <Integration />} />
-              <Route exact path="/setting" render={() => <Setting />} />
-              <Route exact path="/profile" render={() => <User />} />
+            <Route exact path="/" render={() => <Dashboard />} />
+            <Route exact path="/dashboard" render={() => <Dashboard />} />
+            <Route exact path="/product" render={() => <Product />} />
+            <Route exact path="/demand" render={() => <Demand />} />
+            <Route exact path="/supply" render={() => <Supply />} />
+            <Route exact path="/warehouse" render={() => <Warehouse />} />
+            <Route exact path="/logistics" render={() => <Logistics />} />
+            <Route exact path="/report" render={() => <Report />} />
+            <Route exact path="/integration" render={() => <Integration />} />
+            <Route exact path="/setting" render={() => <Setting />} />
+            <Route
+              exact
+              path="/account-addresses"
+              render={() => <AccountAddresses />}
+            />
 
-              <Route path="/accounts" render={() => <Accounts />} />
-            </AuthenticatedRoutes>
-          </div>
+            <Route
+              exact
+              path="/account-contacts"
+              render={() => <AccountContacts />}
+            />
+
+            <Route exact path="/profile" render={() => <User />} />
+
+            <Route path="/accounts" render={() => <Accounts />} />
+          </AuthenticatedRoutes>
         </Switch>
       </Router>
     );
   }
 }
 
-export default withStyles(styles, { withTheme: true })(App);
+export default App;
