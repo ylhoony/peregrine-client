@@ -15,6 +15,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Toolbar from "@material-ui/core/Toolbar";
 import Collapse from "@material-ui/core/Collapse";
 
+import Avatar from "@material-ui/core/Avatar";
+
 // Icons
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
@@ -30,10 +32,8 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRightOutlined";
 import ShareIcon from "@material-ui/icons/ShareOutlined";
 import SettingsIcon from "@material-ui/icons/SettingsOutlined";
 import IconButton from "@material-ui/core/IconButton";
-import RemoveIcon from "@material-ui/icons/RemoveOutlined";
-// import RadioButton from "@material-ui/icons/RadioButtonUncheckedOutlined";
-// import RadioButton from "@material-ui/icons/RadioButtonCheckedOutlined";
 import SubDirIcon from "@material-ui/icons/SubdirectoryArrowRightOutlined";
+import UnfoldIcon from "@material-ui/icons/UnfoldMoreOutlined";
 
 const drawerWidth = 200;
 
@@ -48,8 +48,26 @@ const styles = theme => ({
   drawerHeader: {
     display: "flex",
     alignItems: "center",
-    padding: "2 8px",
-    justifyContent: "flex-end"
+    justifyContent: "space-between"
+  },
+  drawerHeaderList: {
+    paddingTop: 0,
+    paddingBottom: 0,
+    width: "-webkit-fill-available"
+  },
+  drawerHeaderListAvatar: {
+    width: "20px",
+    height: "20px"
+  },
+  drawerHeaderListItem: {
+    paddingLeft: theme.spacing.unit * 2,
+    paddingRight: 0
+  },
+  drawerHeaderListItemText: {
+    paddingLeft: theme.spacing.unit
+  },
+  drawerHeaderIconButton: {
+    padding: theme.spacing.unit * 0.75
   },
   listItem: {
     paddingLeft: theme.spacing.unit * 2,
@@ -86,7 +104,7 @@ class LeftDrawer extends Component {
   handleListOpen = e => {
     e.preventDefault();
     console.log(e.target);
-    // debugger;
+
     const listName =
       e.target.parentNode.getAttribute("id") ||
       e.target.parentNode.parentNode.getAttribute("id");
@@ -118,13 +136,38 @@ class LeftDrawer extends Component {
             variant="dense"
             className={classes.drawerHeader}
           >
-            <IconButton onClick={() => this.handleLeftDrawerClose()}>
-              {theme.direction === "ltr" ? (
-                <ChevronLeftIcon fontSize="small" />
-              ) : (
-                <ChevronRightIcon fontSize="small" />
-              )}
-            </IconButton>
+            <List className={classes.drawerHeaderList}>
+              <ListItem
+                button
+                dense
+                className={classes.drawerHeaderListItem}
+                component={Link}
+                to="/accounts/new"
+              >
+                <Avatar className={classes.drawerHeaderListAvatar}>C</Avatar>
+                <ListItemText
+                  primary="+ Company"
+                  className={classes.drawerHeaderListItemText}
+                />
+                <UnfoldIcon fontSize="small" />
+                <IconButton
+                  className={classes.drawerHeaderIconButton}
+                  onClick={() => this.handleLeftDrawerClose()}
+                >
+                  {theme.direction === "ltr" ? (
+                    <ChevronLeftIcon
+                      fontSize="small"
+                      onClick={() => this.handleLeftDrawerClose()}
+                    />
+                  ) : (
+                    <ChevronRightIcon
+                      fontSize="small"
+                      onClick={() => this.handleLeftDrawerClose()}
+                    />
+                  )}
+                </IconButton>
+              </ListItem>
+            </List>
           </Toolbar>
 
           <Divider />
@@ -267,6 +310,16 @@ class LeftDrawer extends Component {
                   </ListItemIcon>
                   <ListItemText
                     inset
+                    primary="Sales Quote"
+                    className={classes.listItemText}
+                  />
+                </ListItem>
+                <ListItem button dense className={classes.nested}>
+                  <ListItemIcon className={classes.listItemIcon}>
+                    <SubDirIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText
+                    inset
                     primary="Sales Order"
                     className={classes.listItemText}
                   />
@@ -278,6 +331,16 @@ class LeftDrawer extends Component {
                   <ListItemText
                     inset
                     primary="Sales Invoice"
+                    className={classes.listItemText}
+                  />
+                </ListItem>
+                <ListItem button dense className={classes.nested}>
+                  <ListItemIcon className={classes.listItemIcon}>
+                    <SubDirIcon fontSize="small" />
+                  </ListItemIcon>
+                  <ListItemText
+                    inset
+                    primary="Credit Note"
                     className={classes.listItemText}
                   />
                 </ListItem>
