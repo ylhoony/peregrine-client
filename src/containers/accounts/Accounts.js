@@ -15,9 +15,18 @@ class Accounts extends Component {
         <main className={this.props.mainClassName}>
           <div className={this.props.toolbarClassName} />
           <Switch>
-            <Route exact path={`${match.url}`} component={AccountList} />
-            <Route path={`${match.url}/new`} component={AccountForm} />
             <Route
+              exact
+              path={`${match.url}`}
+              component={() => <AccountList />}
+            />
+            <Route
+              exact
+              path={`${match.url}/new`}
+              component={() => <AccountForm />}
+            />
+            <Route
+              exact
               path={`${match.url}/:accountId`}
               component={() => <AccountForm />}
             />
@@ -34,4 +43,4 @@ const mapStateToProps = ({ authentication }) => {
   };
 };
 
-export default connect(mapStateToProps)(withRouter(Accounts));
+export default withRouter(connect(mapStateToProps)(Accounts));
