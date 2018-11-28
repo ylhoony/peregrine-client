@@ -16,10 +16,10 @@ const drawerWidth = 200;
 const styles = theme => ({
   content: {
     flexGrow: 1,
-    paddingTop: theme.spacing.unit * 6,
-    paddingRight: theme.spacing.unit * 3,
-    paddingBottom: theme.spacing.unit * 3,
-    paddingLeft: theme.spacing.unit * 3,
+    paddingTop: theme.spacing.unit * 10,
+    paddingRight: theme.spacing.unit * 8,
+    paddingBottom: theme.spacing.unit * 8,
+    paddingLeft: theme.spacing.unit * 8,
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
