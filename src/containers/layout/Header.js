@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import authentication from "../../services/authentication";
 import { actions } from "../../actions/index";
+import Breadcrumb from "../../components/shared/Breadcrumb";
 
 // mui
 import classNames from "classnames";
@@ -43,6 +44,7 @@ const styles = theme => ({
   },
   //
   navLeft: {
+    alignItems: "center",
     display: "flex",
     justifyContent: "flex-start"
   },
@@ -109,6 +111,7 @@ class Header extends Component {
               >
                 <MenuIcon />
               </IconButton>
+              <Breadcrumb />
             </div>
 
             <div className={classes.navRight}>
