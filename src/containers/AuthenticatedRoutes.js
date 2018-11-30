@@ -59,14 +59,19 @@ class AuthenticatedRoutes extends Component {
       authenticateUserError,
       authenticateUserFailure,
       fetchCountriesLoading,
-      // fetchCountriesFailure,
-      // fetchCountriesError,
-      fetchCurrenciesLoading
-      // fetchCurrenciesFailure,
-      // fetchCurrenciesError
+      fetchCountriesFailure,
+      fetchCountriesError,
+      fetchCurrenciesLoading,
+      fetchCurrenciesFailure,
+      fetchCurrenciesError
     } = this.props;
 
     const { classes, leftDrawerOpen } = this.props;
+
+    if (authenticateUserError) {
+      authentication.removeToken();
+      this.props.history.push("/signin");
+    }
 
     if (
       authenticateUserLoading ||
@@ -74,10 +79,6 @@ class AuthenticatedRoutes extends Component {
       fetchCurrenciesLoading
     ) {
       return <Loading />;
-    }
-
-    if (!!authenticateUserError || !!authenticateUserFailure) {
-      this.props.history.push("/signin");
     }
 
     return (
@@ -96,6 +97,7 @@ class AuthenticatedRoutes extends Component {
 }
 
 const mapStateToProps = ({
+  accounts,
   authentication,
   countries,
   currencies,
@@ -103,6 +105,9 @@ const mapStateToProps = ({
 }) => {
   return {
     currentUser: authentication.currentUser,
+
+    currentAccount: accounts.currentAccount,
+    accounts: accounts.accounts,
 
     authenticateUserLoading: authentication.authenticateUserLoading,
     authenticateUserFailure: authentication.authenticateUserFailure,
