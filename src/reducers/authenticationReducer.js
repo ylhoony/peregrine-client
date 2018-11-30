@@ -54,7 +54,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         signUpLoading: false,
-        currentUser: action.payload.current_user
+        currentUser: action.payload
       };
 
     case SIGN_UP_USER_FAILURE:
@@ -75,14 +75,16 @@ export default (state = initialState, action) => {
     case SIGN_IN_USER_START:
       return {
         ...state,
-        signInLoading: true
+        signInLoading: true,        
+        signInFailure: null,
+        signInError: null,
       };
 
     case SIGN_IN_USER_SUCCESS:
       return {
         ...state,
         signInLoading: false,
-        currentUser: action.payload.current_user
+        currentUser: action.payload
       };
 
     case SIGN_IN_USER_FAILURE:
@@ -110,7 +112,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         authenticateUserLoading: false,
-        currentUser: action.payload.user
+        currentUser: action.payload
       };
 
     case AUTHENTICATE_USER_FAILURE:
