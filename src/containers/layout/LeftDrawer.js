@@ -78,23 +78,19 @@ class LeftDrawer extends Component {
 
   handleListOpen = e => {
     e.preventDefault();
-    console.log(e.target);
 
     const listName =
       e.target.parentNode.getAttribute("id") ||
       e.target.parentNode.parentNode.getAttribute("id");
     const key = `${listName}ListOpen`;
-    console.log(key);
 
     this.setState({
       [key]: !!this.state[key] ? false : true
     });
-    console.log(this.state);
   };
 
   render() {
-    const { classes, leftDrawerOpen, theme } = this.props;
-    console.log("left drawer props: ", this.props);
+    const { classes, leftDrawerOpen } = this.props;
     return (
       <Fragment>
         <Drawer
