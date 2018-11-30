@@ -1,9 +1,9 @@
 import {
   // actions for fetching account list
-  // FETCH_ACCOUNTS_START,
-  // FETCH_ACCOUNTS_SUCCESS,
-  // FETCH_ACCOUNTS_FAILURE,
-  // FETCH_ACCOUNTS_ERROR,
+  FETCH_ACCOUNTS_START,
+  FETCH_ACCOUNTS_SUCCESS,
+  FETCH_ACCOUNTS_FAILURE,
+  FETCH_ACCOUNTS_ERROR,
   // actions for creating new account
   CREATE_ACCOUNT_START,
   CREATE_ACCOUNT_SUCCESS,
@@ -27,6 +27,10 @@ const initialState = {
   currentAccount: null,
   accounts: [],
 
+  fetchAccountsLoading: null,
+  fetchAccountsFailure: null,
+  fetchAccountsError: null,
+
   createAccountLoading: null,
   createAccountFailure: null,
   createAccountError: null
@@ -34,6 +38,33 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case FETCH_ACCOUNTS_START:
+      return {
+        ...state,
+        fetchAccountsLoading: true
+      };
+
+    case FETCH_ACCOUNTS_SUCCESS:
+      return {
+        ...state,
+        fetchAccountsLoading: false,
+        accounts: action.payload
+      };
+
+    case FETCH_ACCOUNTS_FAILURE:
+      return {
+        ...state,
+        fetchAccountsLoading: false,
+        fetchAccountsFailure: true
+      };
+
+    case FETCH_ACCOUNTS_ERROR:
+      return {
+        ...state,
+        fetchAccountsLoading: false,
+        fetchAccountsError: true
+      };
+
     case CREATE_ACCOUNT_START:
       return {
         ...state,
