@@ -69,7 +69,7 @@ export default {
     return async dispatch => {
       dispatch({ type: AUTHENTICATE_USER_START });
       try {
-        const res = await axios.get("/api/v1/current_user", {
+        const res = await axios.get("/api/v1/verify_user", {
           headers: {
             Authorization: authentication.getEncodedToken()
           }
