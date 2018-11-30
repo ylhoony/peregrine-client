@@ -27,7 +27,21 @@ export const UPDATE_ACCOUNT_ERROR = "UPDATE_ACCOUNT_ERROR";
 
 export default {
   fetchAccounts: () => {
-    return dispatch => {};
+    return async dispatch => {
+      dispatch({ type: FETCH_ACCOUNTS_START });
+
+      try {
+        const res = await axios.get("/api/v1/accounts", {
+          headers: {
+            Authorization: authentication.getEncodedToken()
+          }
+        });
+        dispatch({ type: FETCH_ACCOUNTS_SUCCESS, payload: res.data })
+      } catch (err) {
+        console.log(err);
+        dispatch({ type: FETCH_ACCOUNTS_ERROR });
+      }
+    };
   },
   createAccount: data => {
     return async dispatch => {

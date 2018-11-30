@@ -19,5 +19,6 @@ export const actions = {
   fetchCurrencies: currencies.fetchCurrencies,
   fetchCurrency: currencies.fetchCurrency,
   // accounts
+  fetchAccounts: accounts.fetchAccounts,
   createAccount: accounts.createAccount
 };
