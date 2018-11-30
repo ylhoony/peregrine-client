@@ -30,7 +30,22 @@ export default {
     return dispatch => {};
   },
   createAccount: data => {
-    return dispatch => {};
+    return async dispatch => {
+      dispatch({ type: CREATE_ACCOUNT_START });
+      try {
+        const res = await axios({
+          method: "post",
+          url: "/api/v1/accounts",
+          headers: {
+            Authorization: authentication.getEncodedToken()
+          },
+          data: data
+        });
+        dispatch({ type: CREATE_ACCOUNT_SUCCESS, payload: res.data });
+      } catch (err) {
+        dispatch({ type: CREATE_ACCOUNT_ERROR });
+      }
+    };
   },
   fetchAccount: data => {}
 };
