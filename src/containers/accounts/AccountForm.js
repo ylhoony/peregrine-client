@@ -60,15 +60,10 @@ class AccountForm extends Component {
   }
 
   componentDidMount() {
-    // if (this.props.match.path === "/accounts/new") {
-    //   this.props.actions.closeLeftDrawer();
-    // }
+    this.props.actions.closeLeftDrawer();
   }
 
   handleInputChange = e => {
-    console.log("name", e.target.name);
-    console.log("value", e.target.value);
-
     const key = e.target.name;
     const value = e.target.value;
 
@@ -79,7 +74,6 @@ class AccountForm extends Component {
         [key]: value
       }
     });
-    console.log("account state: ", this.state.account);
   };
 
   handleFormSubmit = async e => {
@@ -90,7 +84,6 @@ class AccountForm extends Component {
 
   render() {
     const { countries, currencies, classes, match } = this.props;
-    console.log(this.props);
 
     return (
       <Fragment>
