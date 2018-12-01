@@ -4,14 +4,13 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actions } from "../actions/index";
 import authentication from "../services/authentication";
+import { leftDrawerWidth } from "../services/muiTheme";
 
 import Loading from "../components/shared/Loading";
 
 //mui
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
-
-const drawerWidth = 200;
 
 const styles = theme => ({
   content: {
@@ -31,7 +30,7 @@ const styles = theme => ({
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen
     }),
-    marginLeft: `${drawerWidth}px`
+    marginLeft: `${leftDrawerWidth}px`
   }
 });
 
@@ -43,6 +42,7 @@ class AuthenticatedRoutes extends Component {
     } else {
       const { actions, countries, currencies } = this.props;
       actions.authenticateUser(token);
+      actions.fetchAccounts();
       if (!countries.length) {
         actions.fetchCountries();
       }
@@ -58,6 +58,9 @@ class AuthenticatedRoutes extends Component {
       authenticateUserLoading,
       authenticateUserError,
       authenticateUserFailure,
+      fetchAccountsLoading,
+      fetchAccountsFailure,
+      fetchAccountsError,
       fetchCountriesLoading,
       fetchCountriesFailure,
       fetchCountriesError,
@@ -75,6 +78,7 @@ class AuthenticatedRoutes extends Component {
 
     if (
       authenticateUserLoading ||
+      fetchAccountsLoading ||
       fetchCountriesLoading ||
       fetchCurrenciesLoading
     ) {
@@ -105,9 +109,12 @@ const mapStateToProps = ({
 }) => {
   return {
     currentUser: authentication.currentUser,
-
     currentAccount: accounts.currentAccount,
+
     accounts: accounts.accounts,
+    fetchAccountsLoading: accounts.fetchAccountsLoading,
+    fetchAccountsFailure: accounts.fetchAccountsFailure,
+    fetchAccountsError: accounts.fetchAccountsError,
 
     authenticateUserLoading: authentication.authenticateUserLoading,
     authenticateUserFailure: authentication.authenticateUserFailure,

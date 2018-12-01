@@ -4,6 +4,7 @@ import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import { actions } from "../../actions/index";
+import { leftDrawerWidth } from "../../services/muiTheme";
 
 // mui
 import Drawer from "@material-ui/core/Drawer";
@@ -29,15 +30,13 @@ import ShareIcon from "@material-ui/icons/ShareOutlined";
 import SettingsIcon from "@material-ui/icons/SettingsOutlined";
 import SubDirIcon from "@material-ui/icons/SubdirectoryArrowRightOutlined";
 
-const drawerWidth = 225;
-
 const styles = theme => ({
   drawer: {
-    width: drawerWidth,
+    width: leftDrawerWidth,
     flexShrink: 0
   },
   drawerPaper: {
-    width: drawerWidth
+    width: leftDrawerWidth
   },
   drawerHeader: {
     display: "flex",
