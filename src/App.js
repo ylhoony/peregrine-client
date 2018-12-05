@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
 
 // material-ui layout setup
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -36,6 +37,8 @@ import AccountContacts from "./containers/setting/account-contacts/AccountContac
 
 class App extends Component {
   render() {
+    const { currentAccount } = this.props;
+    console.log("currentAccount in App:", currentAccount);
     return (
       <Router>
         <Switch>
@@ -47,7 +50,13 @@ class App extends Component {
             <Header />
             <LeftDrawer />
 
-            <Route exact path="/" render={() => <Dashboard />} />
+            <Route
+              exact
+              path="/"
+              render={
+                !!currentAccount ? () => <Dashboard /> : () => <Accounts />
+              }
+            />
             <Route exact path="/dashboard" render={() => <Dashboard />} />
             <Route exact path="/product" render={() => <Product />} />
             <Route exact path="/demand" render={() => <Demand />} />
@@ -79,4 +88,10 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = ({ users }) => {
+  return {
+    currentAccount: users.currentAccount
+  };
+};
+
+export default connect(mapStateToProps)(App);
