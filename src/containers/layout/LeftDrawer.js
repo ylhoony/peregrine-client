@@ -71,6 +71,12 @@ class LeftDrawer extends Component {
     };
   }
 
+  componentDidMount() {
+    if (!this.props.currentAccount) {
+      this.props.actions.closeLeftDrawer();
+    }
+  }
+
   handleLeftDrawerClose = () => {
     this.props.actions.closeLeftDrawer();
   };
@@ -556,8 +562,10 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const mapStateToProps = ({ layouts }) => {
+const mapStateToProps = ({ layouts, users }) => {
   return {
+    currentAccount: users.currentAccount,
+
     leftDrawerOpen: layouts.leftDrawerOpen
   };
 };
