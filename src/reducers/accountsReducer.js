@@ -24,7 +24,6 @@ import {
 } from "../actions/accountsActions";
 
 const initialState = {
-  currentAccount: null,
   accounts: [],
 
   fetchAccountsLoading: null,
@@ -72,11 +71,9 @@ export default (state = initialState, action) => {
       };
 
     case CREATE_ACCOUNT_SUCCESS:
-      debugger;
       return {
         ...state,
         createAccountLoading: false,
-        currentAccount: action.payload,
         accounts: state.accounts.concat(action.payload)
       };
 
