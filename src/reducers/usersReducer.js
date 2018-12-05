@@ -18,11 +18,22 @@ import {
   AUTHENTICATE_USER_START,
   AUTHENTICATE_USER_SUCCESS,
   AUTHENTICATE_USER_FAILURE,
-  AUTHENTICATE_USER_ERROR
-} from "../actions/authenticationActions";
+  AUTHENTICATE_USER_ERROR,
+  //
+  FETCH_CURRENT_ACCOUNT_START,
+  FETCH_CURRENT_ACCOUNT_SUCCESS,
+  FETCH_CURRENT_ACCOUNT_FAILURE,
+  FETCH_CURRENT_ACCOUNT_ERROR,
+  //
+  UPDATE_CURRENT_ACCOUNT_START,
+  UPDATE_CURRENT_ACCOUNT_SUCCESS,
+  UPDATE_CURRENT_ACCOUNT_FAILURE,
+  UPDATE_CURRENT_ACCOUNT_ERROR
+} from "../actions/usersActions";
 
 const initialState = {
   currentUser: null,
+  currentAccount: null,
 
   signUpLoading: false,
   signUpFailure: null,
@@ -34,7 +45,15 @@ const initialState = {
 
   authenticateUserLoading: false,
   authenticateUserFailure: null,
-  authenticateUserError: null
+  authenticateUserError: null,
+
+  fetchCurrentAccountLoading: false,
+  fetchCurrentAccountFailure: false,
+  fetchCurrentAccountError: false,
+
+  updateCurrentAccountLoading: false,
+  updateCurrentAccountFailure: false,
+  updateCurrentAccountError: false
 };
 
 export default (state = initialState, action) => {
@@ -75,9 +94,9 @@ export default (state = initialState, action) => {
     case SIGN_IN_USER_START:
       return {
         ...state,
-        signInLoading: true,        
+        signInLoading: true,
         signInFailure: null,
-        signInError: null,
+        signInError: null
       };
 
     case SIGN_IN_USER_SUCCESS:
@@ -127,6 +146,62 @@ export default (state = initialState, action) => {
         ...state,
         authenticateUserLoading: false,
         authenticateUserError: true
+      };
+
+    case FETCH_CURRENT_ACCOUNT_START:
+      return {
+        ...state,
+        fetchCurrentAccountLoading: true
+      };
+
+    case FETCH_CURRENT_ACCOUNT_SUCCESS:
+      console.log("current_account success: ", action.payload);
+      return {
+        ...state,
+        fetchCurrentAccountLoading: false,
+        currentAccount: action.payload
+      };
+
+    case FETCH_CURRENT_ACCOUNT_FAILURE:
+      return {
+        ...state,
+        fetchCurrentAccountLoading: false,
+        fetchCurrentAccountFailure: true
+      };
+
+    case FETCH_CURRENT_ACCOUNT_ERROR:
+      return {
+        ...state,
+        fetchCurrentAccountLoading: false,
+        fetchCurrentAccountError: true
+      };
+
+    //
+    case UPDATE_CURRENT_ACCOUNT_START:
+      return {
+        ...state,
+        updateCurrentAccountLoading: true
+      };
+
+    case UPDATE_CURRENT_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        updateCurrentAccountLoading: false,
+        currentAccount: action.payload
+      };
+
+    case UPDATE_CURRENT_ACCOUNT_FAILURE:
+      return {
+        ...state,
+        updateCurrentAccountLoading: false,
+        updateCurrentAccountFailure: true
+      };
+
+    case UPDATE_CURRENT_ACCOUNT_ERROR:
+      return {
+        ...state,
+        updateCurrentAccountLoading: false,
+        updateCurrentAccountError: true
       };
 
     default:

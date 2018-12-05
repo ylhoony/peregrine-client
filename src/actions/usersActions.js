@@ -1,5 +1,5 @@
 import axios from "axios";
-import authentication from "../services/authentication";
+import UserAuth from "../services/UserAuth";
 
 export const SIGN_UP_USER_START = "SIGN_UP_USER_START";
 export const SIGN_UP_USER_SUCCESS = "SIGN_UP_USER_SUCCESS";
@@ -21,6 +21,16 @@ export const AUTHENTICATE_USER_SUCCESS = "AUTHENTICATE_USER_SUCCESS";
 export const AUTHENTICATE_USER_FAILURE = "AUTHENTICATE_USER_FAILURE";
 export const AUTHENTICATE_USER_ERROR = "AUTHENTICATE_USER_ERROR";
 
+export const FETCH_CURRENT_ACCOUNT_START = "FETCH_CURRENT_ACCOUNT_START";
+export const FETCH_CURRENT_ACCOUNT_SUCCESS = "FETCH_CURRENT_ACCOUNT_SUCCESS";
+export const FETCH_CURRENT_ACCOUNT_FAILURE = "FETCH_CURRENT_ACCOUNT_FAILURE";
+export const FETCH_CURRENT_ACCOUNT_ERROR = "FETCH_CURRENT_ACCOUNT_ERROR";
+
+export const UPDATE_CURRENT_ACCOUNT_START = "UPDATE_CURRENT_ACCOUNT_START";
+export const UPDATE_CURRENT_ACCOUNT_SUCCESS = "UPDATE_CURRENT_ACCOUNT_SUCCESS";
+export const UPDATE_CURRENT_ACCOUNT_FAILURE = "UPDATE_CURRENT_ACCOUNT_FAILURE";
+export const UPDATE_CURRENT_ACCOUNT_ERROR = "UPDATE_CURRENT_ACCOUNT_ERROR";
+
 export default {
   signUp: data => {
     return async dispatch => {
@@ -29,7 +39,7 @@ export default {
         const res = await axios.post("/api/v1/sign_up", data);
 
         if (!!res.headers.authorization) {
-          authentication.setToken(res.headers.authorization);
+          UserAuth.setToken(res.headers.authorization);
           dispatch({
             type: SIGN_UP_USER_SUCCESS,
             payload: res.data
@@ -50,7 +60,7 @@ export default {
       try {
         const res = await axios.post("/api/v1/sign_in", data);
         if (!!res.headers.authorization) {
-          authentication.setToken(res.headers.authorization);
+          UserAuth.setToken(res.headers.authorization);
           dispatch({
             type: SIGN_IN_USER_SUCCESS,
             payload: res.data
@@ -71,12 +81,50 @@ export default {
       try {
         const res = await axios.get("/api/v1/verify_user", {
           headers: {
-            Authorization: authentication.getEncodedToken()
+            Authorization: UserAuth.getEncodedToken()
           }
         });
         dispatch({ type: AUTHENTICATE_USER_SUCCESS, payload: res.data });
       } catch (err) {
         dispatch({ type: AUTHENTICATE_USER_ERROR, payload: err });
+      }
+    };
+  },
+  fetchCurrentAccount: () => {
+    return async dispatch => {
+      dispatch({ type: FETCH_CURRENT_ACCOUNT_START });
+      try {
+        const res = await axios.get("/api/v1/current_account", {
+          headers: {
+            Authorization: UserAuth.getEncodedToken()
+          }
+        });
+        dispatch({
+          type: FETCH_CURRENT_ACCOUNT_SUCCESS,
+          payload: res.data
+        });
+      } catch (err) {
+        dispatch({ type: FETCH_CURRENT_ACCOUNT_ERROR, payload: err });
+      }
+    };
+  },
+  updateCurrentAccount: () => {
+    return async dispatch => {
+      dispatch({ type: UPDATE_CURRENT_ACCOUNT_START });
+      try {
+        const res = await axios({
+          method: "put",
+          url: "/api/v1/current_account",
+          headers: {
+            Authorization: UserAuth.getEncodedToken()
+          }
+        });
+        dispatch({
+          type: UPDATE_CURRENT_ACCOUNT_SUCCESS,
+          payload: res.data
+        });
+      } catch (err) {
+        dispatch({ type: UPDATE_CURRENT_ACCOUNT_ERROR, payload: err });
       }
     };
   }

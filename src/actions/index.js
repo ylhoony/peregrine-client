@@ -1,4 +1,4 @@
-import authentication from "./authenticationActions";
+import users from "./usersActions";
 import countries from "./countriesActions";
 import currencies from "./currenciesActions";
 import layouts from "./layoutsActions";
@@ -8,10 +8,12 @@ export const actions = {
   // layout
   openLeftDrawer: layouts.openLeftDrawer,
   closeLeftDrawer: layouts.closeLeftDrawer,
-  // authentication
-  signUp: authentication.signUp,
-  signIn: authentication.signIn,
-  authenticateUser: authentication.authenticateUser,
+  // users
+  signUp: users.signUp,
+  signIn: users.signIn,
+  authenticateUser: users.authenticateUser,
+  fetchCurrentAccount: users.fetchCurrentAccount,
+  updateCurrentAccount: users.updateCurrentAccount,
   // countries
   fetchCountries: countries.fetchCountries,
   fetchCountry: countries.fetchCountry,
