@@ -1,5 +1,5 @@
 import axios from "axios";
-import authentication from "../services/authentication";
+import UserAuth from "../services/UserAuth";
 
 // actions for fetching currency list
 export const FETCH_CURRENCIES_START = "FETCH_CURRENCIES_START";
@@ -20,7 +20,7 @@ export default {
       try {
         const res = await axios.get("/api/v1/currencies", {
           headers: {
-            Authorization: authentication.getEncodedToken()
+            Authorization: UserAuth.getEncodedToken()
           }
         });
         dispatch({ type: FETCH_CURRENCIES_SUCCESS, payload: res.data });
@@ -35,7 +35,7 @@ export default {
       try {
         const res = await axios.get(`/api/v1/currencies/${currencyId}`, {
           headers: {
-            Authorization: authentication.getEncodedToken()
+            Authorization: UserAuth.getEncodedToken()
           }
         });
         dispatch({ type: FETCH_CURRENCY_SUCCESS, payload: res.data });

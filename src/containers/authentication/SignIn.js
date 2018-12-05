@@ -17,7 +17,7 @@ import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import Loading from "../../components/shared/Loading";
-import authentication from "../../services/authentication";
+import UserAuth from "../../services/UserAuth";
 
 const styles = theme => ({
   layout: {
@@ -65,9 +65,9 @@ class SignIn extends Component {
   }
 
   componentDidMount() {
-    const token = authentication.getToken();
+    const token = UserAuth.getToken();
     if (!!token) {
-      authentication.removeToken();
+      UserAuth.removeToken();
     }
   }
 
@@ -90,7 +90,7 @@ class SignIn extends Component {
     console.log("form submit state: ", this.state);
 
     await this.props.actions.signIn(this.state);
-    this.props.history.push("/accounts");
+    this.props.history.push("/");
   };
 
   render() {
@@ -169,13 +169,13 @@ class SignIn extends Component {
   }
 }
 
-const mapStateToProps = ({ authentication }) => {
+const mapStateToProps = ({ users }) => {
   return {
-    currentUser: authentication.currentUser,
+    currentUser: users.currentUser,
 
-    signInLoading: authentication.signInLoading,
-    signInFailure: authentication.signInFailure,
-    signInError: authentication.signInError
+    signInLoading: users.signInLoading,
+    signInFailure: users.signInFailure,
+    signInError: users.signInError
   };
 };
 

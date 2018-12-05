@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import authentication from "../../services/authentication";
+import UserAuth from "../../services/UserAuth";
 import { actions } from "../../actions/index";
 import Breadcrumb from "../../components/shared/Breadcrumb";
 
@@ -89,7 +89,7 @@ class Header extends Component {
   };
 
   handleSignOut = () => {
-    authentication.removeToken();
+    UserAuth.removeToken();
     this.props.history.push("/signin");
   };
 
@@ -107,10 +107,17 @@ class Header extends Component {
   };
 
   render() {
-    const { accounts, classes, currentAccount, leftDrawerOpen } = this.props;
+    const {
+      accounts,
+      classes,
+      currentAccount,
+      currentUser,
+      leftDrawerOpen
+    } = this.props;
+
+    console.log("header current user: ", currentUser);
 
     let accountList;
-
     if (!accounts.length) {
       accountList = "";
     } else {
@@ -133,7 +140,7 @@ class Header extends Component {
           transition
         >
           {({ TransitionProps }) => (
-            <Fade {...TransitionProps} timeout={350}>
+            <Fade {...TransitionProps} timeout={0}>
               <ClickAwayListener
                 onClickAway={e => this.handleHeaderPopperOpen(e)}
               >
@@ -143,10 +150,20 @@ class Header extends Component {
                   </List>
                   <Divider />
                   <List component="nav" dense>
-                    <ListItem button component={Link} to="/accounts">
+                    <ListItem
+                      button
+                      component={Link}
+                      to="/accounts"
+                      onClick={e => this.handleHeaderPopperOpen(e)}
+                    >
                       <ListItemText>See all accounts</ListItemText>
                     </ListItem>
-                    <ListItem button component={Link} to="/accounts/new">
+                    <ListItem
+                      button
+                      component={Link}
+                      to="/accounts/new"
+                      onClick={e => this.handleHeaderPopperOpen(e)}
+                    >
                       <ListItemText>Add new organization</ListItemText>
                     </ListItem>
                   </List>
@@ -242,9 +259,11 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const mapStateToProps = ({ accounts, layouts }) => {
+const mapStateToProps = ({ accounts, users, layouts }) => {
   return {
-    currentAccount: accounts.currentAccount,
+    currentUser: users.currentUser,
+    currentAccount: users.currentAccount,
+
     accounts: accounts.accounts,
 
     leftDrawerWidth: layouts.leftDrawerWidth,

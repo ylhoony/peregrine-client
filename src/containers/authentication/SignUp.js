@@ -81,9 +81,7 @@ class SignUp extends Component {
     console.log(this.state);
     await this.props.actions.signUp(this.state);
 
-    if (!!this.props.currentUser) {
-      this.props.history.push("/accounts");
-    }
+    this.props.history.push("/");
   };
 
   render() {
@@ -170,9 +168,9 @@ class SignUp extends Component {
   }
 }
 
-const mapStateToProps = ({ authentication }) => {
+const mapStateToProps = ({ users }) => {
   return {
-    currentUser: authentication.currentUser
+    currentUser: users.currentUser
   };
 };
 

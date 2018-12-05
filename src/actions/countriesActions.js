@@ -1,5 +1,5 @@
 import axios from "axios";
-import authentication from "../services/authentication";
+import UserAuth from "../services/UserAuth";
 
 // actions for fetching coutnry list
 export const FETCH_COUNTRIES_START = "FETCH_COUNTRIES_START";
@@ -20,7 +20,7 @@ export default {
       try {
         const res = await axios.get("/api/v1/countries", {
           headers: {
-            Authorization: authentication.getEncodedToken()
+            Authorization: UserAuth.getEncodedToken()
           }
         });
         dispatch({ type: FETCH_COUNTRIES_SUCCESS, payload: res.data });
@@ -35,7 +35,7 @@ export default {
       try {
         const res = await axios.get(`/api/v1/countries/${countryId}`, {
           headers: {
-            Authorization: authentication.getEncodedToken()
+            Authorization: UserAuth.getEncodedToken()
           }
         });
         dispatch({ type: FETCH_COUNTRY_SUCCESS, payload: res.data });

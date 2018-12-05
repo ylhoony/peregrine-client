@@ -1,5 +1,5 @@
 import axios from "axios";
-import authentication from "../services/authentication";
+import UserAuth from "../services/UserAuth";
 
 // actions for fetching account list
 export const FETCH_ACCOUNTS_START = "FETCH_ACCOUNTS_START";
@@ -33,10 +33,10 @@ export default {
       try {
         const res = await axios.get("/api/v1/accounts", {
           headers: {
-            Authorization: authentication.getEncodedToken()
+            Authorization: UserAuth.getEncodedToken()
           }
         });
-        dispatch({ type: FETCH_ACCOUNTS_SUCCESS, payload: res.data })
+        dispatch({ type: FETCH_ACCOUNTS_SUCCESS, payload: res.data });
       } catch (err) {
         console.log(err);
         dispatch({ type: FETCH_ACCOUNTS_ERROR });
@@ -51,7 +51,7 @@ export default {
           method: "post",
           url: "/api/v1/accounts",
           headers: {
-            Authorization: authentication.getEncodedToken()
+            Authorization: UserAuth.getEncodedToken()
           },
           data: data
         });

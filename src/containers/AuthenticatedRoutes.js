@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actions } from "../actions/index";
-import authentication from "../services/authentication";
+import UserAuth from "../services/UserAuth";
 import { leftDrawerWidth } from "../services/muiTheme";
 
 import Loading from "../components/shared/Loading";
@@ -36,12 +36,13 @@ const styles = theme => ({
 
 class AuthenticatedRoutes extends Component {
   componentDidMount() {
-    const token = authentication.getToken();
+    const token = UserAuth.getToken();
     if (!token) {
       this.props.history.push("/signin");
     } else {
       const { actions, countries, currencies } = this.props;
       actions.authenticateUser(token);
+      actions.fetchCurrentAccount();
       actions.fetchAccounts();
       if (!countries.length) {
         actions.fetchCountries();
@@ -72,7 +73,7 @@ class AuthenticatedRoutes extends Component {
     const { classes, leftDrawerOpen } = this.props;
 
     if (authenticateUserError) {
-      authentication.removeToken();
+      UserAuth.removeToken();
       this.props.history.push("/signin");
     }
 
@@ -102,23 +103,27 @@ class AuthenticatedRoutes extends Component {
 
 const mapStateToProps = ({
   accounts,
-  authentication,
+  users,
   countries,
   currencies,
   layouts
 }) => {
   return {
-    currentUser: authentication.currentUser,
-    currentAccount: accounts.currentAccount,
+    currentUser: users.currentUser,
+    currentAccount: users.currentAccount,
+
+    fetchCurrentAccountLoading: users.fetchCurrentAccountLoading,
+    fetchCurrentAccountFailure: users.fetchCurrentAccountFailure,
+    fetchCurrentAccountError: users.fetchCurrentAccountError,
 
     accounts: accounts.accounts,
     fetchAccountsLoading: accounts.fetchAccountsLoading,
     fetchAccountsFailure: accounts.fetchAccountsFailure,
     fetchAccountsError: accounts.fetchAccountsError,
 
-    authenticateUserLoading: authentication.authenticateUserLoading,
-    authenticateUserFailure: authentication.authenticateUserFailure,
-    authenticateUserError: authentication.authenticateUserError,
+    authenticateUserLoading: users.authenticateUserLoading,
+    authenticateUserFailure: users.authenticateUserFailure,
+    authenticateUserError: users.authenticateUserError,
 
     countries: countries.countries,
     fetchCountriesLoading: countries.fetchCountriesLoading,

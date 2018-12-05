@@ -1,4 +1,4 @@
-export default class Authentication {
+export default class UserAuth {
   static setToken(token) {
     localStorage.setItem("token", token.split(" ")[1]);
   }
