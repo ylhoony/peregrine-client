@@ -108,17 +108,21 @@ export default {
       }
     };
   },
-  updateCurrentAccount: () => {
+  updateCurrentAccount: (userStateId, data) => {
     return async dispatch => {
       dispatch({ type: UPDATE_CURRENT_ACCOUNT_START });
       try {
         const res = await axios({
           method: "put",
-          url: "/api/v1/current_account",
+          url: `/api/v1/user_states/${userStateId}`,
           headers: {
-            Authorization: UserAuth.getEncodedToken()
-          }
+            Authorization: UserAuth.getEncodedToken(),
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          data: data
         });
+
         dispatch({
           type: UPDATE_CURRENT_ACCOUNT_SUCCESS,
           payload: res.data
