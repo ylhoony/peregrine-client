@@ -187,7 +187,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         updateCurrentAccountLoading: false,
-        currentAccount: action.payload
+        currentAccount: action.payload.current_account
       };
 
     case UPDATE_CURRENT_ACCOUNT_FAILURE:
