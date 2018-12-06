@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import { connect } from "react-redux";
 import { Route, Switch, withRouter } from "react-router-dom";
 
 import AccountList from "./AccountList";
@@ -8,7 +7,6 @@ import AccountForm from "./AccountForm";
 class Accounts extends Component {
   render() {
     const { match } = this.props;
-    console.log(match.url);
 
     return (
       <Fragment>
@@ -37,10 +35,5 @@ class Accounts extends Component {
   }
 }
 
-const mapStateToProps = ({ authentication }) => {
-  return {
-    currentUser: authentication.currentUser
-  };
-};
 
-export default withRouter(connect(mapStateToProps)(Accounts));
+export default withRouter(Accounts);
