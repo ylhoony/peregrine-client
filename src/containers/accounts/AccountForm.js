@@ -60,7 +60,9 @@ class AccountForm extends Component {
   }
 
   componentDidMount() {
-    this.props.actions.closeLeftDrawer();
+    if (!!(window.location.pathname === "/accounts/new")) {
+      this.props.actions.closeLeftDrawer();
+    }
   }
 
   handleInputChange = e => {
@@ -79,6 +81,7 @@ class AccountForm extends Component {
   handleFormSubmit = async e => {
     e.preventDefault();
     await this.props.actions.createAccount(this.state);
+    await this.props.actions.fetchCurrentAccount();
     this.props.history.push("/");
   };
 
