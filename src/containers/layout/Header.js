@@ -106,6 +106,22 @@ class Header extends Component {
     });
   };
 
+  handleAccountChange = async e => {
+    this.handleHeaderPopperOpen(e);
+
+    const userStateId = this.props.currentUser.user_state.id;
+    const accountId =
+      e.target.dataset.id ||
+      e.target.parentNode.dataset.id ||
+      e.target.parentNode.parentNode.dataset.id;
+
+    const user_state = {
+      current_account_id: accountId
+    };
+    await this.props.actions.updateCurrentAccount(userStateId, user_state);
+    this.props.history.push("/");
+  };
+
   render() {
     const {
       accounts,
@@ -123,7 +139,12 @@ class Header extends Component {
     } else {
       accountList = accounts.map(account => {
         return (
-          <ListItem button key={account.id}>
+          <ListItem
+            button
+            key={account.id}
+            data-id={account.id}
+            onClick={e => this.handleAccountChange(e)}
+          >
             <ListItemText>{account.company_name}</ListItemText>
           </ListItem>
         );
@@ -198,14 +219,16 @@ class Header extends Component {
                 </IconButton>
               ) : (
                 <Fragment>
-                  <IconButton
-                    aria-label="Control drawer"
-                    color="inherit"
-                    fontSize="small"
-                    onClick={() => this.handleLeftDrawerOpen()}
-                  >
-                    <MenuIcon fontSize="small" />
-                  </IconButton>
+                  {!!currentAccount && (
+                    <IconButton
+                      aria-label="Control drawer"
+                      color="inherit"
+                      fontSize="small"
+                      onClick={() => this.handleLeftDrawerOpen()}
+                    >
+                      <MenuIcon fontSize="small" />
+                    </IconButton>
+                  )}
 
                   <List className={classes.headerList}>
                     <ListItem
@@ -236,9 +259,11 @@ class Header extends Component {
             </div>
 
             <div className={classes.navRight}>
-              <IconButton color="inherit">
-                <SearchIcon fontSize="small" />
-              </IconButton>
+              {!!currentAccount && (
+                <IconButton color="inherit">
+                  <SearchIcon fontSize="small" />
+                </IconButton>
+              )}
               <IconButton color="inherit" component={Link} to="/profile">
                 <PersonIcon fontSize="small" />
               </IconButton>
