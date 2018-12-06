@@ -59,6 +59,7 @@ class AuthenticatedRoutes extends Component {
       authenticateUserLoading,
       authenticateUserError,
       authenticateUserFailure,
+      fetchCurrentAccountLoading,
       fetchAccountsLoading,
       fetchAccountsFailure,
       fetchAccountsError,
@@ -79,6 +80,7 @@ class AuthenticatedRoutes extends Component {
 
     if (
       authenticateUserLoading ||
+      fetchCurrentAccountLoading ||
       fetchAccountsLoading ||
       fetchCountriesLoading ||
       fetchCurrenciesLoading
